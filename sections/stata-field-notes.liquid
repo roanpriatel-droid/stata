@@ -1,0 +1,148 @@
+{%- comment -%}
+  STATA — Field Notes
+  3 brand-voiced declaration cards on true-black. Charcoal card backgrounds.
+  No hover state on cards. Stagger fade-in only.
+{%- endcomment -%}
+
+<style>
+  .stata-fieldnotes-section {
+    background-color: var(--stata-true-black);
+    padding: 140px 32px;
+  }
+
+  .stata-fieldnotes-section__inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .stata-fieldnotes-section__eyebrow {
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    color: var(--stata-gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 0 80px 0;
+  }
+
+  .stata-fieldnotes-section__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .stata-fieldnotes-section__card {
+    background-color: var(--stata-charcoal);
+    padding: 40px;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 500ms var(--stata-ease-luxurious),
+      transform 500ms var(--stata-ease-luxurious);
+  }
+
+  .stata-fieldnotes-section__card.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stata-fieldnotes-section__quote {
+    font-family: var(--stata-font-display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--stata-bone);
+    margin: 0;
+  }
+
+  .stata-fieldnotes-section__attr {
+    font-family: var(--stata-font-mono);
+    font-size: 10px;
+    color: var(--stata-stone);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 32px 0 0 0;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .stata-fieldnotes-section { padding: 80px 20px; }
+    .stata-fieldnotes-section__grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .stata-fieldnotes-section__eyebrow { margin-bottom: 48px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stata-fieldnotes-section__card {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+
+{%- assign quote_1 = section.settings.quote_1 | default: 'Track the year like a hedge fund tracks a quarter.' -%}
+{%- assign quote_2 = section.settings.quote_2 | default: 'Discipline is the same instrument used twice a day, every day, for thirty years.' -%}
+{%- assign quote_3 = section.settings.quote_3 | default: 'The unserious will not inherit the future.' -%}
+
+<section class="stata-fieldnotes-section" data-stata-fieldnotes>
+  <div class="stata-fieldnotes-section__inner">
+    <p class="stata-fieldnotes-section__eyebrow">{{ section.settings.eyebrow | default: 'FIELD NOTES' }}</p>
+    <div class="stata-fieldnotes-section__grid">
+      <article class="stata-fieldnotes-section__card" data-stata-fieldnote-card>
+        <p class="stata-fieldnotes-section__quote">&ldquo;{{ quote_1 }}&rdquo;</p>
+        <p class="stata-fieldnotes-section__attr">— STATA, FIELD NOTE NO. 01</p>
+      </article>
+      <article class="stata-fieldnotes-section__card" data-stata-fieldnote-card>
+        <p class="stata-fieldnotes-section__quote">&ldquo;{{ quote_2 }}&rdquo;</p>
+        <p class="stata-fieldnotes-section__attr">— STATA, FIELD NOTE NO. 02</p>
+      </article>
+      <article class="stata-fieldnotes-section__card" data-stata-fieldnote-card>
+        <p class="stata-fieldnotes-section__quote">&ldquo;{{ quote_3 }}&rdquo;</p>
+        <p class="stata-fieldnotes-section__attr">— STATA, FIELD NOTE NO. 03</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var cards = document.querySelectorAll('[data-stata-fieldnote-card]');
+    if (!cards.length) return;
+    if (!('IntersectionObserver' in window)) {
+      cards.forEach(function (c) { c.classList.add('is-in'); });
+      return;
+    }
+    var seen = 0;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var delay = seen * 100;
+          seen++;
+          setTimeout(function () { entry.target.classList.add('is-in'); }, delay);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.25 });
+    cards.forEach(function (c) { io.observe(c); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "STATA Field Notes",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "FIELD NOTES" },
+    { "type": "text", "id": "quote_1", "label": "Quote 1", "default": "Track the year like a hedge fund tracks a quarter." },
+    { "type": "text", "id": "quote_2", "label": "Quote 2", "default": "Discipline is the same instrument used twice a day, every day, for thirty years." },
+    { "type": "text", "id": "quote_3", "label": "Quote 3", "default": "The unserious will not inherit the future." }
+  ],
+  "presets": [{ "name": "STATA Field Notes" }]
+}
+{% endschema %}

@@ -1,0 +1,99 @@
+{%- comment -%}
+  STATA — Manifesto excerpt
+  Three centered italic lines. Continues obsidian background from hero.
+{%- endcomment -%}
+
+<style>
+  .stata-manifesto-section {
+    background-color: var(--stata-obsidian);
+    padding: 160px 32px;
+  }
+
+  .stata-manifesto-section__inner {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .stata-manifesto-section__line {
+    font-family: var(--stata-font-display);
+    font-weight: 300;
+    font-style: italic;
+    font-size: 40px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 700ms var(--stata-ease-luxurious),
+      transform 700ms var(--stata-ease-luxurious);
+  }
+
+  .stata-manifesto-section__line--primary { color: var(--stata-bone); }
+  .stata-manifesto-section__line--secondary { color: var(--stata-warm-white); }
+
+  .stata-manifesto-section.is-in .stata-manifesto-section__line {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stata-manifesto-section.is-in .stata-manifesto-section__line:nth-child(1) { transition-delay: 0ms; }
+  .stata-manifesto-section.is-in .stata-manifesto-section__line:nth-child(2) { transition-delay: 250ms; }
+  .stata-manifesto-section.is-in .stata-manifesto-section__line:nth-child(3) { transition-delay: 500ms; }
+
+  @media screen and (max-width: 767px) {
+    .stata-manifesto-section { padding: 100px 20px; }
+    .stata-manifesto-section__line { font-size: 28px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stata-manifesto-section__line {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+
+<section class="stata-manifesto-section" data-stata-manifesto>
+  <div class="stata-manifesto-section__inner">
+    <p class="stata-manifesto-section__line stata-manifesto-section__line--primary">{{ section.settings.line_1 | default: 'Most things in life compound.' }}</p>
+    <p class="stata-manifesto-section__line stata-manifesto-section__line--secondary">{{ section.settings.line_2 | default: 'A daily walk. A weekly review.' }}</p>
+    <p class="stata-manifesto-section__line stata-manifesto-section__line--primary">{{ section.settings.line_3 | default: 'None of it dramatic. All of it the difference.' }}</p>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var el = document.querySelector('[data-stata-manifesto]');
+    if (!el || !('IntersectionObserver' in window)) {
+      if (el) el.classList.add('is-in');
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    io.observe(el);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "STATA Manifesto",
+  "settings": [
+    { "type": "text", "id": "line_1", "label": "Line 1", "default": "Most things in life compound." },
+    { "type": "text", "id": "line_2", "label": "Line 2", "default": "A daily walk. A weekly review." },
+    { "type": "text", "id": "line_3", "label": "Line 3", "default": "None of it dramatic. All of it the difference." }
+  ],
+  "presets": [{ "name": "STATA Manifesto Excerpt" }]
+}
+{% endschema %}

@@ -1,0 +1,211 @@
+{%- comment -%}
+  STATA — On Discipline (signature motion section)
+  Two-column asymmetric. Sticky label left. Right column paragraphs animate
+  word-by-word on scroll-into-view.
+{%- endcomment -%}
+
+<style>
+  .stata-discipline-section {
+    background-color: var(--stata-obsidian);
+    padding: 180px 32px;
+  }
+
+  .stata-discipline-section__inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .stata-discipline-section__label {
+    position: sticky;
+    top: 180px;
+  }
+
+  .stata-discipline-section__eyebrow {
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    color: var(--stata-gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0 0 24px 0;
+  }
+
+  .stata-discipline-section__sub {
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    color: var(--stata-stone);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0 0 40px 0;
+  }
+
+  .stata-discipline-section__rule {
+    width: 60px;
+    height: 1px;
+    background-color: var(--stata-gold);
+    border: 0;
+    margin: 0;
+  }
+
+  .stata-discipline-section__body {
+    max-width: 720px;
+  }
+
+  .stata-discipline-section__para {
+    font-family: var(--stata-font-display);
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 1.7;
+    color: var(--stata-bone);
+    letter-spacing: -0.005em;
+    margin: 0 0 28px 0;
+  }
+
+  .stata-discipline-section__para:last-of-type {
+    margin-bottom: 48px;
+  }
+
+  .stata-discipline-section__word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 400ms var(--stata-ease-luxurious),
+      transform 400ms var(--stata-ease-luxurious);
+    will-change: opacity, transform;
+  }
+
+  .stata-discipline-section__word.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stata-discipline-section__more {
+    display: inline-block;
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    color: var(--stata-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    border-bottom: 1px solid var(--stata-gold);
+    padding-bottom: 4px;
+    transition: color 200ms var(--stata-ease-standard);
+  }
+
+  .stata-discipline-section__more:hover {
+    color: var(--stata-bone);
+  }
+
+  .stata-discipline-section__more-arrow {
+    display: inline-block;
+    margin-left: 6px;
+    transition: transform 250ms var(--stata-ease-standard);
+  }
+
+  .stata-discipline-section__more:hover .stata-discipline-section__more-arrow {
+    transform: translateX(4px);
+  }
+
+  @media screen and (max-width: 1023px) {
+    .stata-discipline-section { padding: 100px 20px; }
+    .stata-discipline-section__inner {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .stata-discipline-section__label { position: static; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stata-discipline-section__word {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+
+{%- assign para_1 = section.settings.para_1 | default: 'Most things in life compound. A daily walk. A weekly review. A quarterly retrospective. None of it dramatic. None of it shareable. All of it the difference between the serious and the unserious.' -%}
+{%- assign para_2 = section.settings.para_2 | default: 'STATA was built for the people who already know this. The ones running their life like a long-form project, not a series of hot streaks. The ones who will spend 30 years quietly building something while everyone else is loud and broke.' -%}
+
+<section class="stata-discipline-section" data-stata-discipline>
+  <div class="stata-discipline-section__inner">
+    <div class="stata-discipline-section__label">
+      <p class="stata-discipline-section__eyebrow">{{ section.settings.eyebrow | default: 'ON DISCIPLINE' }}</p>
+      <p class="stata-discipline-section__sub">{{ section.settings.sub | default: 'AN ESSAY' }}</p>
+      <hr class="stata-discipline-section__rule">
+    </div>
+
+    <div class="stata-discipline-section__body">
+      <p class="stata-discipline-section__para" data-stata-discipline-para>
+        {%- assign words_1 = para_1 | split: ' ' -%}
+        {%- for word in words_1 -%}
+          <span class="stata-discipline-section__word">{{ word }}</span>{% unless forloop.last %} {% endunless %}
+        {%- endfor -%}
+      </p>
+
+      <p class="stata-discipline-section__para" data-stata-discipline-para>
+        {%- assign words_2 = para_2 | split: ' ' -%}
+        {%- for word in words_2 -%}
+          <span class="stata-discipline-section__word">{{ word }}</span>{% unless forloop.last %} {% endunless %}
+        {%- endfor -%}
+      </p>
+
+      <a href="{{ section.settings.link | default: '/pages/on-discipline' }}" class="stata-discipline-section__more">Read the full manifesto<span class="stata-discipline-section__more-arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var paras = document.querySelectorAll('[data-stata-discipline-para]');
+    if (!paras.length) return;
+    if (!('IntersectionObserver' in window)) {
+      paras.forEach(function (p) {
+        p.querySelectorAll('.stata-discipline-section__word').forEach(function (w) { w.classList.add('is-in'); });
+      });
+      return;
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+
+        var para = entry.target;
+        var words = para.querySelectorAll('.stata-discipline-section__word');
+        var rect = para.getBoundingClientRect();
+
+        // If the paragraph has already scrolled past the viewport center,
+        // the user blew past it — snap all words in immediately.
+        var viewportCenter = window.innerHeight / 2;
+        var scrolledPast = rect.top < viewportCenter - 100;
+
+        words.forEach(function (w, idx) {
+          var delay = scrolledPast ? 0 : idx * 30;
+          setTimeout(function () { w.classList.add('is-in'); }, delay);
+        });
+
+        io.unobserve(para);
+      });
+    }, { threshold: 0.25 });
+
+    paras.forEach(function (p) { io.observe(p); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "STATA On Discipline",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "ON DISCIPLINE" },
+    { "type": "text", "id": "sub", "label": "Sub-eyebrow", "default": "AN ESSAY" },
+    { "type": "textarea", "id": "para_1", "label": "Paragraph 1", "default": "Most things in life compound. A daily walk. A weekly review. A quarterly retrospective. None of it dramatic. None of it shareable. All of it the difference between the serious and the unserious." },
+    { "type": "textarea", "id": "para_2", "label": "Paragraph 2", "default": "STATA was built for the people who already know this. The ones running their life like a long-form project, not a series of hot streaks. The ones who will spend 30 years quietly building something while everyone else is loud and broke." },
+    { "type": "url", "id": "link", "label": "Manifesto link", "default": "/pages/on-discipline" }
+  ],
+  "presets": [{ "name": "STATA On Discipline" }]
+}
+{% endschema %}

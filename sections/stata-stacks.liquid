@@ -1,0 +1,265 @@
+{%- comment -%}
+  STATA — Stacks
+  4 bundle cards on charcoal. Card bg obsidian, 1px gold border on left edge only.
+  Mobile: horizontal snap scroll.
+{%- endcomment -%}
+
+<style>
+  .stata-stacks-section {
+    background-color: var(--stata-charcoal);
+    padding: 140px 32px;
+  }
+
+  .stata-stacks-section__inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .stata-stacks-section__eyebrow {
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    color: var(--stata-gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 0 24px 0;
+  }
+
+  .stata-stacks-section__heading {
+    font-family: var(--stata-font-display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 56px;
+    color: var(--stata-bone);
+    text-align: center;
+    margin: 0 0 80px 0;
+    line-height: 1.1;
+  }
+
+  .stata-stacks-section__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .stata-stacks-section__card {
+    background-color: var(--stata-obsidian);
+    border-left: 1px solid var(--stata-gold);
+    padding: 32px;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 500ms var(--stata-ease-luxurious),
+      transform 500ms var(--stata-ease-luxurious);
+  }
+
+  .stata-stacks-section__card.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stata-stacks-section__name {
+    font-family: var(--stata-font-display);
+    font-weight: 400;
+    font-size: 28px;
+    color: var(--stata-bone);
+    margin: 0 0 16px 0;
+    line-height: 1.15;
+  }
+
+  .stata-stacks-section__includes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .stata-stacks-section__includes li {
+    font-family: var(--stata-font-body);
+    font-size: 13px;
+    color: var(--stata-warm-white);
+    line-height: 1.7;
+  }
+
+  .stata-stacks-section__includes li::before {
+    content: "— ";
+    color: var(--stata-stone);
+  }
+
+  .stata-stacks-section__price-block {
+    margin: 32px 0 24px 0;
+  }
+
+  .stata-stacks-section__was {
+    font-family: var(--stata-font-body);
+    font-size: 14px;
+    color: var(--stata-stone);
+    text-decoration: line-through;
+    margin: 0;
+  }
+
+  .stata-stacks-section__price {
+    font-family: var(--stata-font-mono);
+    font-size: 24px;
+    color: var(--stata-bone);
+    margin: 4px 0;
+    letter-spacing: 0.02em;
+  }
+
+  .stata-stacks-section__save {
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    color: var(--stata-gold);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin: 0;
+  }
+
+  .stata-stacks-section__cta {
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--stata-bone);
+    text-decoration: none;
+    align-self: flex-start;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--stata-bone);
+    transition: border-color 250ms var(--stata-ease-standard);
+  }
+
+  .stata-stacks-section__cta:hover {
+    border-color: var(--stata-gold);
+  }
+
+  .stata-stacks-section__cta-arrow {
+    display: inline-block;
+    margin-left: 6px;
+    transition: transform 250ms var(--stata-ease-standard);
+  }
+
+  .stata-stacks-section__cta:hover .stata-stacks-section__cta-arrow {
+    transform: translateX(4px);
+  }
+
+  @media screen and (max-width: 1279px) and (min-width: 768px) {
+    .stata-stacks-section__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media screen and (max-width: 767px) {
+    .stata-stacks-section { padding: 80px 0 80px 20px; }
+    .stata-stacks-section__inner { max-width: none; }
+    .stata-stacks-section__eyebrow,
+    .stata-stacks-section__heading { padding-right: 20px; }
+    .stata-stacks-section__heading { font-size: 36px; margin-bottom: 48px; }
+    .stata-stacks-section__grid {
+      display: flex;
+      grid-template-columns: none;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 16px;
+      padding-right: 20px;
+      scrollbar-width: none;
+    }
+    .stata-stacks-section__grid::-webkit-scrollbar { display: none; }
+    .stata-stacks-section__card {
+      flex: 0 0 80%;
+      scroll-snap-align: start;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stata-stacks-section__card {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+
+{%- comment -%}
+  Bundles encoded as: name||includes (pipe-sep within)||was||price||save||link
+  Triple-bar separates fields, pipe separates "includes" entries.
+{%- endcomment -%}
+{%- assign bundles = section.settings.bundles | default: 'Starter Stack||Dashboard|Operator’s Planner|Calendar||Was $132||$97||SAVE $35||/products/starter-stack;;Discipline Stack||Habit Ledger|Goals Brief|Journal||Was $88||$67||SAVE $21||/products/discipline-stack;;Operator Stack||Capital Sheet|Network|Project Brief||Was $118||$97||SAVE $21||/products/operator-stack;;The STATA Library||All 10 instruments||Was $365||$197||SAVE $168||/products/the-stata-library' | split: ';;' -%}
+
+<section class="stata-stacks-section" data-stata-stacks>
+  <div class="stata-stacks-section__inner">
+    <p class="stata-stacks-section__eyebrow">{{ section.settings.eyebrow | default: 'THE STACKS  ·  04 ENGINEERED COMBINATIONS' }}</p>
+    <h2 class="stata-stacks-section__heading">{{ section.settings.heading | default: 'Sized for the operator.' }}</h2>
+
+    <div class="stata-stacks-section__grid">
+      {%- for bundle in bundles -%}
+        {%- assign fields = bundle | split: '||' -%}
+        {%- assign name = fields[0] -%}
+        {%- assign includes_raw = fields[1] -%}
+        {%- assign was = fields[2] -%}
+        {%- assign price = fields[3] -%}
+        {%- assign save = fields[4] -%}
+        {%- assign link = fields[5] -%}
+        {%- assign includes = includes_raw | split: '|' -%}
+        <article class="stata-stacks-section__card" data-stata-stacks-card>
+          <div>
+            <h3 class="stata-stacks-section__name">{{ name }}</h3>
+            <ul class="stata-stacks-section__includes">
+              {%- for inc in includes -%}
+                <li>{{ inc | strip }}</li>
+              {%- endfor -%}
+            </ul>
+          </div>
+          <div>
+            <div class="stata-stacks-section__price-block">
+              <p class="stata-stacks-section__was">{{ was }}</p>
+              <p class="stata-stacks-section__price">{{ price }}</p>
+              <p class="stata-stacks-section__save">{{ save }}</p>
+            </div>
+            <a href="{{ link }}" class="stata-stacks-section__cta">Acquire stack<span class="stata-stacks-section__cta-arrow" aria-hidden="true">&rarr;</span></a>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var cards = document.querySelectorAll('[data-stata-stacks-card]');
+    if (!cards.length) return;
+    if (!('IntersectionObserver' in window)) {
+      cards.forEach(function (c) { c.classList.add('is-in'); });
+      return;
+    }
+    var seen = 0;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var delay = seen * 100;
+          seen++;
+          setTimeout(function () { entry.target.classList.add('is-in'); }, delay);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    cards.forEach(function (c) { io.observe(c); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "STATA Stacks",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE STACKS  ·  04 ENGINEERED COMBINATIONS" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Sized for the operator." },
+    {
+      "type": "textarea",
+      "id": "bundles",
+      "label": "Bundles (advanced — see file for format)",
+      "default": "Starter Stack||Dashboard|Operator's Planner|Calendar||Was $132||$97||SAVE $35||/products/starter-stack;;Discipline Stack||Habit Ledger|Goals Brief|Journal||Was $88||$67||SAVE $21||/products/discipline-stack;;Operator Stack||Capital Sheet|Network|Project Brief||Was $118||$97||SAVE $21||/products/operator-stack;;The STATA Library||All 10 instruments||Was $365||$197||SAVE $168||/products/the-stata-library"
+    }
+  ],
+  "presets": [{ "name": "STATA Stacks" }]
+}
+{% endschema %}

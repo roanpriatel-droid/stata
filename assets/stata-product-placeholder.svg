@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" preserveAspectRatio="xMidYMid slice">
+  <rect width="800" height="1000" fill="#1A1A1A"/>
+  <rect x="40" y="40" width="720" height="920" fill="none" stroke="#2C2C2C" stroke-width="1"/>
+  <text x="400" y="500" text-anchor="middle" font-family="'JetBrains Mono', 'Courier New', monospace" font-size="13" letter-spacing="4" fill="#8A857C">INSTRUMENT</text>
+</svg>

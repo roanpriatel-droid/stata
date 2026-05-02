@@ -1,0 +1,257 @@
+{%- comment -%}
+  STATA — Flagship
+  60/40 image+copy on charcoal. Image bleeds -40px left on desktop.
+  Right column sticky on desktop. Specs panel with hairline gold border.
+{%- endcomment -%}
+
+<style>
+  .stata-flagship-section {
+    background-color: var(--stata-charcoal);
+    padding: 120px 32px;
+    /* Clip the -40px image bleed without creating a scroll container.
+       overflow: clip (unlike hidden) does NOT bind sticky descendants,
+       so the right column's `position: sticky` continues to anchor to
+       the viewport, not this section. */
+    overflow-x: clip;
+  }
+
+  .stata-flagship-section__inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    align-items: start;
+    gap: 80px;
+  }
+
+  .stata-flagship-section__image-col {
+    overflow: visible;
+  }
+
+  .stata-flagship-section__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    transform: translateX(-80px);
+    opacity: 0;
+    transition:
+      transform 800ms var(--stata-ease-luxurious),
+      opacity 800ms var(--stata-ease-luxurious);
+    will-change: transform, opacity;
+  }
+
+  .stata-flagship-section.is-in .stata-flagship-section__image {
+    transform: translateX(-40px);
+    opacity: 1;
+  }
+
+  .stata-flagship-section__copy-col {
+    position: sticky;
+    top: 120px;
+  }
+
+  .stata-flagship-section__copy {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 600ms var(--stata-ease-luxurious) 200ms,
+      transform 600ms var(--stata-ease-luxurious) 200ms;
+  }
+
+  .stata-flagship-section.is-in .stata-flagship-section__copy {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stata-flagship-section__eyebrow {
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    color: var(--stata-gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0 0 24px 0;
+  }
+
+  .stata-flagship-section__headline {
+    font-family: var(--stata-font-display);
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--stata-bone);
+    margin: 0 0 24px 0;
+  }
+
+  .stata-flagship-section__desc {
+    font-family: var(--stata-font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--stata-warm-white);
+    max-width: 480px;
+    margin: 0 0 40px 0;
+  }
+
+  .stata-flagship-section__specs {
+    border: 1px solid var(--stata-gold);
+    padding: 24px;
+    max-width: 360px;
+    margin: 0 0 40px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stata-flagship-section__specs-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    font-family: var(--stata-font-mono);
+    font-size: 12px;
+    color: var(--stata-bone);
+  }
+
+  .stata-flagship-section__specs-label {
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .stata-flagship-section__specs-value {
+    letter-spacing: 0.05em;
+    text-align: right;
+  }
+
+  .stata-flagship-section__cta {
+    display: inline-block;
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    padding: 18px 28px;
+    background-color: var(--stata-oxblood);
+    color: var(--stata-bone);
+    text-decoration: none;
+    border: 0;
+    border-radius: 0;
+    transition: background-color 250ms var(--stata-ease-standard);
+  }
+
+  .stata-flagship-section__cta:hover {
+    background-color: var(--stata-oxblood-deep);
+  }
+
+  .stata-flagship-section__cta-arrow {
+    display: inline-block;
+    margin-left: 8px;
+    transition: transform 250ms var(--stata-ease-standard);
+  }
+
+  .stata-flagship-section__cta:hover .stata-flagship-section__cta-arrow {
+    transform: translateX(4px);
+  }
+
+  @media screen and (max-width: 1023px) {
+    .stata-flagship-section { padding: 80px 20px; }
+    .stata-flagship-section__inner {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .stata-flagship-section__image { transform: translateX(0); }
+    .stata-flagship-section.is-in .stata-flagship-section__image { transform: translateX(0); }
+    .stata-flagship-section__copy-col { position: static; }
+    .stata-flagship-section__headline { font-size: 40px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stata-flagship-section__image,
+    .stata-flagship-section__copy {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+    .stata-flagship-section.is-in .stata-flagship-section__image { transform: translateX(-40px); }
+    @media screen and (max-width: 1023px) {
+      .stata-flagship-section.is-in .stata-flagship-section__image { transform: translateX(0); }
+    }
+  }
+</style>
+
+<section class="stata-flagship-section" data-stata-flagship>
+  <div class="stata-flagship-section__inner">
+    <div class="stata-flagship-section__image-col">
+      <img
+        src="{{ 'stata-flagship-placeholder.svg' | asset_url }}"
+        alt="The STATA Dashboard"
+        class="stata-flagship-section__image"
+        loading="lazy"
+        width="1200"
+        height="1500"
+      >
+    </div>
+
+    <div class="stata-flagship-section__copy-col">
+      <div class="stata-flagship-section__copy">
+        <p class="stata-flagship-section__eyebrow">{{ section.settings.eyebrow | default: '001 — THE FLAGSHIP' }}</p>
+        <h2 class="stata-flagship-section__headline">{{ section.settings.headline | default: 'The STATA Dashboard' }}</h2>
+        <p class="stata-flagship-section__desc">{{ section.settings.description | default: 'The complete life operating system. Goals, projects, finances, network, and reading — on a single dark page. Built for those who measure years in execution, not intention.' }}</p>
+
+        <dl class="stata-flagship-section__specs">
+          <div class="stata-flagship-section__specs-row">
+            <dt class="stata-flagship-section__specs-label">Format</dt>
+            <dd class="stata-flagship-section__specs-value">Notion</dd>
+          </div>
+          <div class="stata-flagship-section__specs-row">
+            <dt class="stata-flagship-section__specs-label">Updates</dt>
+            <dd class="stata-flagship-section__specs-value">Lifetime</dd>
+          </div>
+          <div class="stata-flagship-section__specs-row">
+            <dt class="stata-flagship-section__specs-label">License</dt>
+            <dd class="stata-flagship-section__specs-value">One user</dd>
+          </div>
+          <div class="stata-flagship-section__specs-row">
+            <dt class="stata-flagship-section__specs-label">Price</dt>
+            <dd class="stata-flagship-section__specs-value">{{ section.settings.price | default: '$67' }}</dd>
+          </div>
+        </dl>
+
+        <a href="{{ section.settings.cta_link | default: '/products/the-stata-dashboard' }}" class="stata-flagship-section__cta">
+          <span>Acquire</span><span class="stata-flagship-section__cta-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var el = document.querySelector('[data-stata-flagship]');
+    if (!el || !('IntersectionObserver' in window)) {
+      if (el) el.classList.add('is-in');
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    io.observe(el);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "STATA Flagship",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "001 — THE FLAGSHIP" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "The STATA Dashboard" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "The complete life operating system. Goals, projects, finances, network, and reading — on a single dark page. Built for those who measure years in execution, not intention." },
+    { "type": "text", "id": "price", "label": "Price", "default": "$67" },
+    { "type": "url", "id": "cta_link", "label": "CTA link", "default": "/products/the-stata-dashboard" }
+  ],
+  "presets": [{ "name": "STATA Flagship" }]
+}
+{% endschema %}

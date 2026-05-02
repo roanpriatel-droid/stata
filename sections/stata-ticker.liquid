@@ -1,0 +1,99 @@
+{%- comment -%}
+  STATA — Ticker
+  Slow horizontal scroll, true-black band, gold mono text. Pause on hover.
+{%- endcomment -%}
+
+<style>
+  .stata-ticker-section {
+    background-color: var(--stata-true-black);
+    height: 30vh;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .stata-ticker-section__track {
+    display: flex;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    will-change: transform;
+    animation: stata-ticker-marquee 60s linear infinite;
+  }
+
+  .stata-ticker-section:hover .stata-ticker-section__track,
+  .stata-ticker-section:focus-within .stata-ticker-section__track {
+    animation-play-state: paused;
+  }
+
+  .stata-ticker-section__group {
+    flex: 0 0 auto;
+    padding-right: 0;
+    font-family: var(--stata-font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--stata-gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .stata-ticker-section__sep {
+    display: inline-block;
+    margin: 0 1.5em;
+    font-size: 1.4em;
+    line-height: 0.5;
+    vertical-align: middle;
+    color: var(--stata-gold);
+  }
+
+  .stata-ticker-section__phrase {
+    display: inline-block;
+  }
+
+  @keyframes stata-ticker-marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media screen and (max-width: 767px) {
+    .stata-ticker-section {
+      height: 25vh;
+      min-height: 140px;
+    }
+    .stata-ticker-section__group { font-size: 11px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stata-ticker-section__track { animation: none; }
+  }
+</style>
+
+{%- assign phrases = section.settings.phrases | default: 'DISCIPLINE IS A LUXURY GOOD|THE UNSERIOUS WILL NOT INHERIT THE FUTURE|MEMENTO MORI MEMENTO OPERARI|001 — 010 INSTRUMENTS|EST. MMXXVI' | split: '|' -%}
+
+<section class="stata-ticker-section" aria-label="STATA dispatch">
+  <div class="stata-ticker-section__track">
+    {%- for n in (1..2) -%}
+      <div class="stata-ticker-section__group" aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
+        {%- for phrase in phrases -%}
+          <span class="stata-ticker-section__phrase">{{ phrase | strip }}</span><span class="stata-ticker-section__sep" aria-hidden="true">&middot;</span>
+        {%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "STATA Ticker",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "phrases",
+      "label": "Phrases (pipe-separated |)",
+      "default": "DISCIPLINE IS A LUXURY GOOD|THE UNSERIOUS WILL NOT INHERIT THE FUTURE|MEMENTO MORI MEMENTO OPERARI|001 — 010 INSTRUMENTS|EST. MMXXVI"
+    }
+  ],
+  "presets": [{ "name": "STATA Ticker" }]
+}
+{% endschema %}

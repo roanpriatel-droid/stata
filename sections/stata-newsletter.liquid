@@ -1,0 +1,166 @@
+{%- comment -%}
+  STATA — Newsletter
+  Centered. Hairline-bottom-border email input + oxblood SUBSCRIBE button.
+  Posts to Shopify customer signup via {% form 'customer' %}.
+{%- endcomment -%}
+
+<style>
+  .stata-newsletter-section {
+    background-color: var(--stata-obsidian);
+    padding: 160px 32px;
+  }
+
+  .stata-newsletter-section__inner {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .stata-newsletter-section__eyebrow {
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    color: var(--stata-gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0 0 32px 0;
+  }
+
+  .stata-newsletter-section__heading {
+    font-family: var(--stata-font-display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1.4;
+    color: var(--stata-bone);
+    margin: 0 0 48px 0;
+  }
+
+  .stata-newsletter-section__form {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 16px;
+    text-align: left;
+  }
+
+  .stata-newsletter-section__input {
+    flex: 1;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--stata-bone);
+    padding: 16px 0;
+    color: var(--stata-bone);
+    font-family: var(--stata-font-body);
+    font-size: 16px;
+    border-radius: 0;
+    transition: border-color 250ms var(--stata-ease-standard), border-bottom-width 250ms var(--stata-ease-standard);
+    outline: none;
+    box-shadow: none;
+    appearance: none;
+  }
+
+  .stata-newsletter-section__input::placeholder {
+    color: var(--stata-stone);
+  }
+
+  .stata-newsletter-section__input:focus {
+    border-bottom-color: var(--stata-gold);
+    border-bottom-width: 2px;
+    /* prevent layout shift from border-width change */
+    padding-bottom: 15px;
+  }
+
+  .stata-newsletter-section__submit {
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    padding: 16px 28px;
+    background-color: var(--stata-oxblood);
+    color: var(--stata-bone);
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background-color 250ms var(--stata-ease-standard);
+  }
+
+  .stata-newsletter-section__submit:hover,
+  .stata-newsletter-section__submit:focus-visible {
+    background-color: var(--stata-oxblood-deep);
+  }
+
+  .stata-newsletter-section__status-line {
+    font-family: var(--stata-font-mono);
+    font-size: 10px;
+    color: var(--stata-stone);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 32px 0 0 0;
+  }
+
+  .stata-newsletter-section__msg {
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    color: var(--stata-gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 16px 0 0 0;
+    text-align: left;
+  }
+
+  .stata-newsletter-section__msg--error {
+    color: var(--stata-oxblood);
+  }
+
+  @media screen and (max-width: 767px) {
+    .stata-newsletter-section { padding: 100px 20px; }
+    .stata-newsletter-section__form {
+      flex-direction: column;
+      gap: 24px;
+    }
+    .stata-newsletter-section__submit { width: 100%; }
+  }
+</style>
+
+<section class="stata-newsletter-section">
+  <div class="stata-newsletter-section__inner">
+    <p class="stata-newsletter-section__eyebrow">{{ section.settings.eyebrow | default: 'THE BRIEF  ·  WEEKLY' }}</p>
+    <p class="stata-newsletter-section__heading">{{ section.settings.heading | default: 'A weekly note on building things that compound. No fluff. No ads.' }}</p>
+
+    {% form 'customer', class: 'stata-newsletter-section__form', novalidate: 'novalidate' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <label for="StataNewsletterEmail" class="visually-hidden">Email</label>
+      <input
+        id="StataNewsletterEmail"
+        type="email"
+        name="contact[email]"
+        class="stata-newsletter-section__input"
+        placeholder="your.email@domain.com"
+        autocomplete="email"
+        required
+      >
+      <button type="submit" class="stata-newsletter-section__submit">Subscribe</button>
+    {% endform %}
+
+    {%- if form.posted_successfully? -%}
+      <p class="stata-newsletter-section__msg">Subscribed. Check your inbox.</p>
+    {%- elsif form.errors -%}
+      <p class="stata-newsletter-section__msg stata-newsletter-section__msg--error">{{ form.errors | default_errors }}</p>
+    {%- endif -%}
+
+    <p class="stata-newsletter-section__status-line">{{ section.settings.status_line | default: '0 SUBSCRIBERS · GROWING' }}</p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "STATA Newsletter",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE BRIEF  ·  WEEKLY" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "A weekly note on building things that compound. No fluff. No ads." },
+    { "type": "text", "id": "status_line", "label": "Status line", "default": "0 SUBSCRIBERS · GROWING" }
+  ],
+  "presets": [{ "name": "STATA Newsletter" }]
+}
+{% endschema %}

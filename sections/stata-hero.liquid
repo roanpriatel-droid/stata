@@ -1,0 +1,354 @@
+{%- comment -%}
+  STATA — Hero
+  Type-driven, asymmetric (content bottom-left), live clock bottom-right.
+  On load: eyebrow types in, headline word-stagger fade-up, sub fades up, CTA fades up.
+  On scroll: parallax up at 0.4x.
+{%- endcomment -%}
+
+<style>
+  .stata-hero-section {
+    position: relative;
+    width: 100%;
+    min-height: 600px;
+    height: 100vh;
+    background-color: var(--stata-obsidian);
+    overflow: hidden;
+  }
+
+  .stata-hero-section__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px;
+    box-sizing: border-box;
+    will-change: transform;
+  }
+
+  .stata-hero-section__content {
+    position: absolute;
+    left: 80px;
+    bottom: 80px;
+    max-width: 60%;
+  }
+
+  .stata-hero-section__eyebrow {
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--stata-gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0 0 32px 0;
+    min-height: 1em;
+  }
+
+  .stata-hero-section__eyebrow .caret {
+    display: inline-block;
+    width: 0.55em;
+    height: 1em;
+    background: var(--stata-gold);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: stata-hero-caret 800ms steps(1, end) infinite;
+  }
+
+  .stata-hero-section__eyebrow[data-typed="done"] .caret {
+    display: none;
+  }
+
+  @keyframes stata-hero-caret {
+    50% { opacity: 0; }
+  }
+
+  .stata-hero-section__headline {
+    font-family: var(--stata-font-display);
+    font-weight: 300;
+    font-size: 120px;
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    color: var(--stata-bone);
+    margin: 0 0 24px 0;
+  }
+
+  .stata-hero-section__headline .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 600ms var(--stata-ease-luxurious),
+      transform 600ms var(--stata-ease-luxurious);
+    will-change: opacity, transform;
+  }
+
+  .stata-hero-section__headline .word.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stata-hero-section__sub {
+    font-family: var(--stata-font-display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 24px;
+    color: var(--stata-warm-white);
+    margin: 0 0 48px 0;
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 400ms var(--stata-ease-luxurious),
+      transform 400ms var(--stata-ease-luxurious);
+  }
+
+  .stata-hero-section__sub.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stata-hero-section__cta {
+    display: inline-block;
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    padding: 18px 28px;
+    background-color: var(--stata-oxblood);
+    color: var(--stata-bone);
+    text-decoration: none;
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 400ms var(--stata-ease-luxurious),
+      transform 400ms var(--stata-ease-luxurious),
+      background-color 250ms var(--stata-ease-standard);
+    position: relative;
+  }
+
+  .stata-hero-section__cta.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stata-hero-section__cta-arrow {
+    display: inline-block;
+    overflow: hidden;
+    max-width: 0;
+    margin-left: 0;
+    transform: translateX(-8px);
+    opacity: 0;
+    transition:
+      max-width 250ms var(--stata-ease-standard),
+      transform 250ms var(--stata-ease-standard),
+      opacity 250ms var(--stata-ease-standard),
+      margin-left 250ms var(--stata-ease-standard);
+    vertical-align: baseline;
+  }
+
+  .stata-hero-section__cta:hover {
+    background-color: var(--stata-oxblood-deep);
+  }
+
+  .stata-hero-section__cta:hover .stata-hero-section__cta-arrow {
+    max-width: 1.2em;
+    margin-left: 8px;
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  /* CLOCK */
+  .stata-hero-section__clock {
+    position: absolute;
+    right: 32px;
+    bottom: 32px;
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    color: var(--stata-stone);
+    letter-spacing: 0.15em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* RESPONSIVE */
+  @media screen and (max-width: 1023px) {
+    .stata-hero-section__inner { padding: 20px; }
+    .stata-hero-section__content {
+      left: 20px;
+      bottom: 60px;
+      max-width: 90%;
+    }
+    .stata-hero-section__headline { font-size: 88px; }
+    .stata-hero-section__clock { right: 20px; bottom: 20px; }
+  }
+
+  @media screen and (max-width: 767px) {
+    .stata-hero-section__headline { font-size: 56px; }
+    .stata-hero-section__sub { font-size: 20px; }
+    .stata-hero-section__content { max-width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stata-hero-section__headline .word,
+    .stata-hero-section__sub,
+    .stata-hero-section__cta {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+    .stata-hero-section__eyebrow .caret { display: none; }
+  }
+</style>
+
+{%- assign eyebrow_text = section.settings.eyebrow | default: 'EST. 2026  ·  ISSUE 001  ·  AN OPERATING SYSTEM' -%}
+{%- assign headline_text = section.settings.headline | default: 'Tools for the disciplined.' -%}
+{%- assign sub_text = section.settings.sub | default: 'Dashboards, planners, and ledgers, built dark.' -%}
+{%- assign cta_label = section.settings.cta_label | default: 'ENTER THE LIBRARY' -%}
+{%- assign cta_link = section.settings.cta_link | default: '/collections/all' -%}
+
+<section class="stata-hero-section" data-stata-hero>
+  <div class="stata-hero-section__inner" data-stata-hero-parallax>
+    <div class="stata-hero-section__content">
+      <p class="stata-hero-section__eyebrow" data-stata-hero-eyebrow data-text="{{ eyebrow_text | escape }}"><span class="caret" aria-hidden="true"></span></p>
+
+      <h1 class="stata-hero-section__headline" data-stata-hero-headline>
+        {%- assign words = headline_text | split: ' ' -%}
+        {%- for word in words -%}
+          <span class="word">{{ word }}</span>{% unless forloop.last %} {% endunless %}
+        {%- endfor -%}
+      </h1>
+
+      <p class="stata-hero-section__sub" data-stata-hero-sub>{{ sub_text }}</p>
+
+      <a href="{{ cta_link }}" class="stata-hero-section__cta" data-stata-hero-cta>
+        <span>{{ cta_label }}</span><span class="stata-hero-section__cta-arrow" aria-hidden="true">&nbsp;&rarr;</span>
+      </a>
+    </div>
+
+    <div class="stata-hero-section__clock" data-stata-hero-clock aria-hidden="true">0000.00.00 — 00:00:00</div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var section = document.querySelector('[data-stata-hero]');
+    if (!section) return;
+
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* CLOCK — ticks every second */
+    var clockEl = section.querySelector('[data-stata-hero-clock]');
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function tick() {
+      var d = new Date();
+      var s = d.getFullYear() + '.' + pad(d.getMonth() + 1) + '.' + pad(d.getDate())
+            + ' — ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+      clockEl.textContent = s;
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    if (prefersReduced) return;
+
+    /* EYEBROW — terminal type-in, 30ms per char */
+    var eyebrowEl = section.querySelector('[data-stata-hero-eyebrow]');
+    var caretEl = eyebrowEl.querySelector('.caret');
+    var fullText = eyebrowEl.getAttribute('data-text') || '';
+    var headlineEl = section.querySelector('[data-stata-hero-headline]');
+    var subEl = section.querySelector('[data-stata-hero-sub]');
+    var ctaEl = section.querySelector('[data-stata-hero-cta]');
+    var headlineWords = headlineEl.querySelectorAll('.word');
+
+    var typedNode = document.createTextNode('');
+    eyebrowEl.insertBefore(typedNode, caretEl);
+
+    var i = 0;
+    function typeStep() {
+      if (i <= fullText.length) {
+        typedNode.nodeValue = fullText.slice(0, i);
+        i++;
+        setTimeout(typeStep, 30);
+      } else {
+        eyebrowEl.setAttribute('data-typed', 'done');
+        runHeadline();
+      }
+    }
+
+    function runHeadline() {
+      headlineWords.forEach(function (w, idx) {
+        setTimeout(function () { w.classList.add('is-in'); }, idx * 80);
+      });
+      var headlineDoneAt = (headlineWords.length - 1) * 80 + 600;
+      setTimeout(function () { subEl.classList.add('is-in'); }, headlineDoneAt);
+      setTimeout(function () { ctaEl.classList.add('is-in'); }, headlineDoneAt + 200);
+    }
+
+    /* Kick off after one frame so the caret has a chance to render */
+    requestAnimationFrame(typeStep);
+
+    /* PARALLAX — translate inner upward at 0.4x scroll */
+    var inner = section.querySelector('[data-stata-hero-parallax]');
+    var ticking = false;
+    function update() {
+      var rect = section.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) {
+        ticking = false;
+        return;
+      }
+      var y = window.scrollY || window.pageYOffset || 0;
+      inner.style.transform = 'translate3d(0,' + (-y * 0.4) + 'px,0)';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }, { passive: true });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "STATA Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "EST. 2026  ·  ISSUE 001  ·  AN OPERATING SYSTEM"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Tools for the disciplined."
+    },
+    {
+      "type": "text",
+      "id": "sub",
+      "label": "Sub-headline",
+      "default": "Dashboards, planners, and ledgers, built dark."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "ENTER THE LIBRARY"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "STATA Hero"
+    }
+  ]
+}
+{% endschema %}

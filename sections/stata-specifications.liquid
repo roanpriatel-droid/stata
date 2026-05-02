@@ -1,0 +1,138 @@
+{%- comment -%}
+  STATA — Specifications
+  Bloomberg-style data table on charcoal. 7 rows.
+{%- endcomment -%}
+
+<style>
+  .stata-specs-section {
+    background-color: var(--stata-charcoal);
+    padding: 140px 32px;
+  }
+
+  .stata-specs-section__inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .stata-specs-section__eyebrow {
+    font-family: var(--stata-font-mono);
+    font-size: 11px;
+    color: var(--stata-gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 0 64px 0;
+  }
+
+  .stata-specs-section__table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .stata-specs-section__row {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 400ms var(--stata-ease-luxurious),
+      transform 400ms var(--stata-ease-luxurious);
+  }
+
+  .stata-specs-section__row.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stata-specs-section__row > * {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--stata-graphite);
+    font-family: var(--stata-font-mono);
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  .stata-specs-section__label {
+    color: var(--stata-gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: left;
+    width: 40%;
+    padding-right: 32px;
+  }
+
+  .stata-specs-section__value {
+    color: var(--stata-bone);
+    letter-spacing: 0.05em;
+    text-align: right;
+  }
+
+  @media screen and (max-width: 767px) {
+    .stata-specs-section { padding: 100px 20px; }
+    .stata-specs-section__row > * { font-size: 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stata-specs-section__row {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+
+{%- assign rows = section.settings.rows | default: 'FOUNDED|MMXXVI;INSTRUMENTS|010;STACKS|004;LICENSE|ONE USER · LIFETIME;UPDATES|PERMANENT;DELIVERY|INSTANT, DIGITAL;SUPPORT|DIRECT, NO QUEUE' | split: ';' -%}
+
+<section class="stata-specs-section" data-stata-specs>
+  <div class="stata-specs-section__inner">
+    <p class="stata-specs-section__eyebrow">{{ section.settings.eyebrow | default: 'THE SPECIFICATIONS' }}</p>
+    <table class="stata-specs-section__table">
+      <tbody>
+        {%- for row in rows -%}
+          {%- assign cells = row | split: '|' -%}
+          <tr class="stata-specs-section__row" data-stata-specs-row>
+            <th scope="row" class="stata-specs-section__label">{{ cells[0] | strip }}</th>
+            <td class="stata-specs-section__value">{{ cells[1] | strip }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var rows = document.querySelectorAll('[data-stata-specs-row]');
+    if (!rows.length) return;
+    if (!('IntersectionObserver' in window)) {
+      rows.forEach(function (r) { r.classList.add('is-in'); });
+      return;
+    }
+    var seen = 0;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var delay = seen * 80;
+          seen++;
+          setTimeout(function () { entry.target.classList.add('is-in'); }, delay);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    rows.forEach(function (r) { io.observe(r); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "STATA Specifications",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE SPECIFICATIONS" },
+    {
+      "type": "textarea",
+      "id": "rows",
+      "label": "Rows (label|value, semicolon-separated)",
+      "default": "FOUNDED|MMXXVI;INSTRUMENTS|010;STACKS|004;LICENSE|ONE USER · LIFETIME;UPDATES|PERMANENT;DELIVERY|INSTANT, DIGITAL;SUPPORT|DIRECT, NO QUEUE"
+    }
+  ],
+  "presets": [{ "name": "STATA Specifications" }]
+}
+{% endschema %}
