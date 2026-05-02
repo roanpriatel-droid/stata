@@ -1,4 +1,5 @@
 {
+  "layout": "theme",
   "sections": {
     "stata-hero": {
       "type": "stata-hero",
