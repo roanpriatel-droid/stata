@@ -1,0 +1,64 @@
+/* ============================================================
+   STATA — Brand Base / Reset
+   Sits on top of Dawn's base.css to enforce the dark editorial
+   foundation: obsidian background, bone text, square edges,
+   restrained motion, subtle noise.
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--stata-obsidian);
+  color: var(--stata-bone);
+  font-family: var(--stata-font-body);
+  line-height: 1.6;
+}
+
+/* ----------------------------------------------------------
+   1% noise overlay
+   Inline SVG fractalNoise — no extra HTTP request.
+   Fixed, pointer-events: none so it never blocks interaction.
+   ---------------------------------------------------------- */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 200px 200px;
+  background-repeat: repeat;
+}
+
+/* ----------------------------------------------------------
+   Heading defaults — display serif by default
+   ---------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--stata-font-display);
+}
+
+/* ----------------------------------------------------------
+   Square edges — part of the brand
+   ---------------------------------------------------------- */
+button,
+input,
+.card {
+  border-radius: 0;
+}
+
+/* ----------------------------------------------------------
+   Selection — oxblood on bone
+   ---------------------------------------------------------- */
+::selection {
+  background: var(--stata-oxblood);
+  color: var(--stata-bone);
+}

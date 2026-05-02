@@ -1,0 +1,92 @@
+/* ============================================================
+   STATA — Design Tokens
+   The luxury OS for the disciplined. Tools for the disciplined.
+   ============================================================ */
+
+:root {
+  /* ----------------------------------------------------------
+     COLORS
+     ---------------------------------------------------------- */
+
+  /* Backgrounds */
+  --stata-obsidian: #0A0A0A;       /* Primary background */
+  --stata-charcoal: #1A1A1A;       /* Secondary background */
+  --stata-graphite: #2C2C2C;       /* Borders, subtle UI */
+  --stata-true-black: #000000;     /* Footer, ticker bands */
+
+  /* Text */
+  --stata-bone: #F5F2EC;           /* Primary text on dark */
+  --stata-warm-white: #EDE8DD;     /* Secondary text */
+  --stata-stone: #8A857C;          /* Muted text, metadata */
+
+  /* Accents */
+  --stata-oxblood: #5C1A1A;        /* CTAs, accents */
+  --stata-oxblood-deep: #4A1414;   /* CTA hover state */
+  --stata-gold: #B8945F;           /* Premium accents, hairlines */
+  --stata-moss: #6B7A5A;           /* Success states (use sparingly) */
+
+  /* ----------------------------------------------------------
+     FONT FAMILIES
+     ---------------------------------------------------------- */
+  --stata-font-display: 'Cormorant Garamond', Georgia, serif;
+  --stata-font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --stata-font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* ----------------------------------------------------------
+     TYPE SCALE (locked)
+     Each property exposed as its own var so consumers can mix
+     and match without redefining font shorthand.
+     ---------------------------------------------------------- */
+
+  /* Display XL — hero only */
+  --stata-display-xl-size: 120px;
+  --stata-display-xl-line-height: 1.0;
+  --stata-display-xl-letter-spacing: -0.025em;
+
+  /* Display L */
+  --stata-display-l-size: 64px;
+  --stata-display-l-line-height: 1.05;
+  --stata-display-l-letter-spacing: -0.02em;
+
+  /* Display M */
+  --stata-display-m-size: 40px;
+  --stata-display-m-line-height: 1.1;
+  --stata-display-m-letter-spacing: -0.015em;
+
+  /* Headline */
+  --stata-headline-size: 28px;
+  --stata-headline-line-height: 1.2;
+  --stata-headline-letter-spacing: -0.01em;
+
+  /* Body Large */
+  --stata-body-l-size: 18px;
+  --stata-body-l-line-height: 1.6;
+
+  /* Body */
+  --stata-body-size: 16px;
+  --stata-body-line-height: 1.6;
+
+  /* Body Small */
+  --stata-body-s-size: 14px;
+  --stata-body-s-line-height: 1.5;
+
+  /* Mono Eyebrow — apply text-transform: uppercase at the consumer */
+  --stata-mono-eyebrow-size: 11px;
+  --stata-mono-eyebrow-line-height: 1.4;
+  --stata-mono-eyebrow-letter-spacing: 0.15em;
+
+  /* Mono Spec */
+  --stata-mono-spec-size: 13px;
+  --stata-mono-spec-line-height: 1.5;
+
+  /* ----------------------------------------------------------
+     MOTION
+     ---------------------------------------------------------- */
+  --stata-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --stata-ease-luxurious: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --stata-duration-fast: 200ms;
+  --stata-duration-medium: 400ms;
+  --stata-duration-slow: 600ms;
+  --stata-duration-word-stagger: 30ms;
+}
